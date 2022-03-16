@@ -57,8 +57,8 @@ public class SignUpServlet extends HttpServlet {
                 DBUtil.signUp(username,passw,firstN,lastN);
             }
         } catch (Exception ex) {
-            req.getSession(true).setAttribute("loginError", ex.getLocalizedMessage());
-            resp.sendRedirect("/login.jsp");
+            req.setAttribute("SignUpError", ex.getLocalizedMessage());
+            req.getRequestDispatcher("login.jsp").forward(req,resp);
             return;
         }
 

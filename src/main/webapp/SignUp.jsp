@@ -19,16 +19,16 @@
             <h1>Create an account</h1>
 
             <!-- To get the latest admin login, please contact SiteOps at 415-555-6159 -->
-            <p><span id="_ctl0__ctl0_Content_Main_message" style="color:#FF0066;font-size:12pt;font-weight:bold;">
-		<%
-            java.lang.String error = (String)request.getSession(true).getAttribute("signup error");
 
-            if (error != null && error.trim().length() > 0){
-                request.getSession().removeAttribute("SignUpError");
-                out.print(error);
-            }
-        %>
-		</span></p>
+
+            <div class="error-msg">
+                <b></b>
+                <%
+                String SignUpError = (String)request.getAttribute("SignUpError");
+                if (SignUpError == null) SignUpError = "Please start Signing Up your account";
+                %>
+                <span class="SignUpError"><%=SignUpError%>></span>
+            </div>
 
             <form action="SignUp" method="post" name="signup" id="signup" onsubmit="return (confirminput(signup));">
                 <table>
