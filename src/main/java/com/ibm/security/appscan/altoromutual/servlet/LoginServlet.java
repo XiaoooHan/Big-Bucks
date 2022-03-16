@@ -72,6 +72,7 @@ public class LoginServlet extends HttpServlet {
 		String username = null;
 		
 		try {
+			//System.out.println("1");
 			username = request.getParameter("uid");
 			if (username != null)
 				username = username.trim().toLowerCase();
