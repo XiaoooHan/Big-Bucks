@@ -221,11 +221,11 @@ public class DBUtil {
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery("SELECT COUNT(*)FROM PEOPLE WHERE USER_ID = user");
 
-		if (resultSet.next()) {
-
-			if (resultSet.getInt(1) > 0)
+		if (resultSet != null) {
+				//System.out.println("2");
 				return true;
 		}
+
 		return false;
 	}
 

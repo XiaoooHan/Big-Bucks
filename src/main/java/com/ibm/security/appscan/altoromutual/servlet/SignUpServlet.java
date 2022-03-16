@@ -48,27 +48,20 @@ public class SignUpServlet extends HttpServlet {
             //System.out.println(cpassw);
 
             if(DBUtil.isDuplicateID(username)){
-                System.out.println("Username[" + username + "] is already occupied");
+                //System.out.println("Username[" + username + "] is already occupied");
                 throw new Exception("SignUp Failed: the user name is duplicated.");
             }else if(!passw.equals(cpassw)){
-                System.out.println("The password entered twice is not the same");
+                //System.out.println("The password entered twice is not the same");
                 throw new Exception("SignUp Failed: The password entered twice is not the same.");
             }else{
                 DBUtil.signUp(username,passw,firstN,lastN);
             }
         } catch (Exception ex) {
-            req.setAttribute("SignUpError", ex.getLocalizedMessage());
-            req.getRequestDispatcher("login.jsp").forward(req,resp);
+            req.getSession(true).setAttribute("loginError", ex.getLocalizedMessage());
+            resp.sendRedirect("login.jsp");
             return;
         }
 
-        if (message == null){
-            message = "Create account success! Welcome to Big Bucks.";
-        }
-
-        //RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-        req.getSession().setAttribute("message", message);
-        resp.sendRedirect("login.jsp");
 
         return;
     }
