@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+
 import static com.ibm.security.appscan.altoromutual.util.DBUtil.isDuplicateID;
+import static com.ibm.security.appscan.altoromutual.util.DBUtil.signUp;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -19,8 +21,14 @@ class DBUtilTest {
         assertEquals(expect1, test);
     }
 
-
     @Test
-    void signUp() {
+    void signUp_test() throws SQLException{
+        String un = "AB";
+        String pw= "1234";
+        String fn = "abc";
+        String ln = "ABC";
+        String test = signUp(un, pw, fn, ln);
+        assertEquals(null, test);
     }
+
 }
