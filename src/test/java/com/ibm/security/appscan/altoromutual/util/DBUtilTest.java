@@ -16,9 +16,9 @@ class DBUtilTest {
         String name = "christinax"; //name already saved inside the data set
         boolean test = isDuplicateID(name);
 
-        assertEquals(expect1,test);
-
+        assertEquals(expect1, test);
     }
+
 
     @Test
     void signUp() {
