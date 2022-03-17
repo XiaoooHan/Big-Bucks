@@ -28,9 +28,8 @@
 	<td valign="top" colspan="3" class="bb">
 		<div class="fl" style="width: 99%;">
 
-			<h1>Online Banking Login</h1>
+				<h1>Online Banking Login</h1>
 
-			<!-- To get the latest admin login, please contact SiteOps at 415-555-6159 -->
 			<p><span id="_ctl0__ctl0_Content_Main_message" style="color:#FF0066;font-size:12pt;font-weight:bold;">
 		<%
 			java.lang.String error = (String)request.getSession(true).getAttribute("loginError");
@@ -40,7 +39,7 @@
 				out.print(error);
 			}
 		%>
-		</span></p>
+			</span></p>
 
 			<form action="doLogin" method="post" name="login" id="login" onsubmit="return (confirminput(login));">
 				<table>
@@ -68,7 +67,6 @@
 							<input type="submit" name="btnSubmit" value="Login">
 						</td>
 
-						//????
 						<script type="text/javascript">
 							function jump(){
 								window.location.href='SignUp.jsp';

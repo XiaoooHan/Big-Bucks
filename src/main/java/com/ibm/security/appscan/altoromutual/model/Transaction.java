@@ -29,16 +29,20 @@ public class Transaction {
 
 	private int transactionId;
 	private long accountId;
+	private String symbol;
 	private String transactionType;
 	private double amount;
+	private double price;
 	private Date date;
 	
-	public Transaction(int transactionId, long accountId, Date date, String transactionType, double amount) {
+	public Transaction(int transactionId, long accountId, String symbol, String transactionType, double amount, Date date, double price) {
 		this.accountId = accountId;
 		this.amount = amount;
+		this.symbol = symbol;
 		this.transactionId = transactionId;
 		this.transactionType = transactionType;
 		this.date = date;
+		this.price = price;
 	}
 
 	public int getTransactionId() {
@@ -60,4 +64,8 @@ public class Transaction {
 	public Date getDate() {
 		return date;
 	}
+
+	public String getSymbol(){return symbol;}
+
+	public Double getPrice(){return price;}
 }
