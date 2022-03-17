@@ -62,6 +62,8 @@ public class SignUpServlet extends HttpServlet {
             return;
         }
 
+        req.getSession().setAttribute("message", message);
+        resp.sendRedirect("login.jsp");
 
         return;
     }

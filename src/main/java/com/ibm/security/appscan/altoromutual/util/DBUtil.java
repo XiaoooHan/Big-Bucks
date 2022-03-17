@@ -219,12 +219,12 @@ public class DBUtil {
 		if (user == null || user.trim().length() == 0) return false;
 		Connection connection = getConnection();
 		Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery("SELECT COUNT(*)FROM PEOPLE WHERE USER_ID = user");
+		ResultSet resultSet = statement.executeQuery("SELECT COUNT(*)FROM PEOPLE WHERE USER_ID = '" + user + "'");
 
-		if (resultSet != null) {
-				//System.out.println("2");
+		/*if (resultSet.next()){
+				System.out.println("test"+resultSet.next());
 				return true;
-		}
+		}*/
 
 		return false;
 	}
