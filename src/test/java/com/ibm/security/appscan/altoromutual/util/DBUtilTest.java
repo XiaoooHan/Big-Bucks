@@ -22,6 +22,15 @@ class DBUtilTest {
     }
 
     @Test
+    void noDuplicateID_test() throws SQLException {
+        boolean expect2 = false;
+        String name = "changs"; //name not in the data set
+        boolean test = isDuplicateID(name);
+
+        assertEquals(expect2, test);
+    }
+
+    @Test
     void signUp_test() throws SQLException{
         String un = "AB";
         String pw= "1234";
