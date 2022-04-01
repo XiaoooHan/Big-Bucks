@@ -73,7 +73,7 @@
 		RedirectServlet</display-name>
     <servlet-name>RedirectServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.RedirectServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.RedirectServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -82,7 +82,7 @@
 		LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.LoginServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.LoginServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -91,7 +91,7 @@
 		AccountViewServlet</display-name>
     <servlet-name>AccountViewServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.AccountViewServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.AccountViewServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -100,7 +100,7 @@
 		TransferServlet</display-name>
     <servlet-name>TransferServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.TransferServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.TransferServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -109,7 +109,7 @@
 		CCApplyServlet</display-name>
     <servlet-name>CCApplyServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.CCApplyServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.CCApplyServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -118,7 +118,7 @@
 		SubscribeServlet</display-name>
     <servlet-name>SubscribeServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.SubscribeServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.SubscribeServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -127,7 +127,7 @@
 		FeedbackServlet</display-name>
     <servlet-name>FeedbackServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.FeedbackServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.FeedbackServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -136,7 +136,7 @@
 		AdminServlet</display-name>
     <servlet-name>AdminServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.AdminServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.AdminServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -145,7 +145,7 @@
 		AdminLoginServlet</display-name>
     <servlet-name>AdminLoginServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.AdminLoginServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.AdminLoginServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
@@ -154,14 +154,35 @@
 		SurveyServlet</display-name>
     <servlet-name>SurveyServlet</servlet-name>
     <servlet-class>
-		com.ibm.security.appscan.altoromutual.servlet.SurveyServlet</servlet-class>
+        com.ibm.security.appscan.altoromutual.servlet.SurveyServlet</servlet-class>
   </servlet>
   //SignUpServlet
   <servlet>
     <servlet-name>SignUpServlet</servlet-name>
     <servlet-class>com.ibm.security.appscan.altoromutual.servlet.SignUpServlet</servlet-class>
   </servlet>
+  //TradingServlet
+  <servlet>
+    <servlet-name>TradingServlet</servlet-name>
+    <servlet-class>com.ibm.security.appscan.altoromutual.servlet.TradingServlet</servlet-class>
+  </servlet>
 
+  //StockAnalysisServlet
+  <servlet>
+    <servlet-name>StockAnalysisServlet</servlet-name>
+    <servlet-class>com.ibm.security.appscan.altoromutual.servlet.StockAnalysisServlet</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>StockAnalysisServlet</servlet-name>
+    <url-pattern>/user/stockAnalysisServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>TradingServlet</servlet-name>
+    <url-pattern>/bank/doTrade</url-pattern>
+  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>SignUpServlet</servlet-name>

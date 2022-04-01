@@ -18,16 +18,15 @@ IBM AltoroJ
 
 package com.ibm.security.appscan.altoromutual.servlet;
 
-import java.io.IOException;
+import com.ibm.security.appscan.altoromutual.util.OperationsUtil;
+import com.ibm.security.appscan.altoromutual.util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.ibm.security.appscan.altoromutual.util.OperationsUtil;
-import com.ibm.security.appscan.altoromutual.util.ServletUtil;
+import java.io.IOException;
 
 /**
  * This servlet allows to transfer funds between existing accounts

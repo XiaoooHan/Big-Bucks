@@ -11,10 +11,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.ibm.security.appscan.altoromutual.util.OperationsUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.wink.json4j.*;
 import com.ibm.security.appscan.altoromutual.util.DBUtil;
-import com.ibm.security.appscan.altoromutual.util.OperationsUtil;
 
 @Path("/login")
 public class LoginAPI{
@@ -70,7 +70,7 @@ public class LoginAPI{
 			myJson.put("success", username + " is now logged in");
 			
 			//Generate a very basic auth token      			
-			String authToken = Base64.encodeBase64String(username.getBytes()) +":"+ Base64.encodeBase64String(password.getBytes()) +":"+OperationsUtil.makeRandomString();
+			String authToken = Base64.encodeBase64String(username.getBytes()) +":"+ Base64.encodeBase64String(password.getBytes()) +":"+ OperationsUtil.makeRandomString();
 			
 			myJson.put("Authorization",Base64.encodeBase64String(authToken.getBytes()));
 			return Response.status(Response.Status.OK).entity(myJson.toString()).type(MediaType.APPLICATION_JSON_TYPE).build();

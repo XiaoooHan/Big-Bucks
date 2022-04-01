@@ -10,9 +10,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.ibm.security.appscan.altoromutual.util.OperationsUtil;
 import org.apache.wink.json4j.*;
 
-import com.ibm.security.appscan.altoromutual.util.OperationsUtil;
 import com.ibm.security.appscan.altoromutual.util.ServletUtil;
 import com.ibm.security.appscan.altoromutual.model.Feedback;
 

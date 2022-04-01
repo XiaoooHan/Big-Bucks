@@ -104,4 +104,11 @@ public class User implements java.io.Serializable{
 		transactions = DBUtil.getTransactions(startDate, endDate, accounts, -1);
 		return transactions; 
 	}
+
+	public Trading[] getUserTradings(Account[] accounts) throws SQLException {
+
+		Trading[] tradings = null;
+		tradings = DBUtil.getTradings(accounts);
+		return tradings;
+	}
 }
