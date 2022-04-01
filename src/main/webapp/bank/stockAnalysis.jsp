@@ -34,7 +34,19 @@
                             }
                         </script>
                         <td>
-                            <input type="button" onclick="jump1()" value="Trading History">
+                            <input type="button" onclick="jump1()" value="Trading History" width="99">
+                        </td>
+                    </tr>
+
+                    <TR valign="top">
+                        <script type="text/javascript">
+                            function jump2(){
+                                //window.location.href='/user/stockAnalysisServlet?action=list';
+                                window.location.href='checkPortfolio.jsp';
+                            }
+                        </script>
+                        <td>
+                            <input type="button" onclick="jump2()" value="Check Portfolio"width="99">
                         </td>
                     </tr>
 
