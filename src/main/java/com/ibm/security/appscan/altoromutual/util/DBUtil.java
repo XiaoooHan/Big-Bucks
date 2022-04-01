@@ -194,19 +194,20 @@ public class DBUtil {
 		Connection connection = getConnection();
 		Statement statement = connection.createStatement();
 
-		ResultSet resultSet =statement.executeQuery("SELECT COUNT(*)FROM PORTFOLIO WHERE SYMBOL = '"+ symbol +"' AND ACCOUNTID=" + accountID);
+		ResultSet resultSet =statement.executeQuery("SELECT * FROM PORTFOLIO WHERE SYMBOL = '"+ symbol +"' AND ACCOUNTID=" + accountID);
+
 
 		//CREATE TABLE PORTFOLIO (STOCK_ID, ACCOUNTID, SYMBOL, AMOUNT, AVGPRICE, VALUE);
 		if(action.equals("buy")) {
 			if (resultSet.next()) {
 				if (resultSet.getInt(1) > 0){
 					//update stock in portfolio
-					long dbamount = resultSet.getLong(4);
-					double dbprice = resultSet.getDouble(5);
-					double dbvalue = resultSet.getDouble(6);
+					long dbamount = resultSet.getLong("AMOUNT");
+					double dbprice = resultSet.getDouble("AVGPRICE");
+					double dbvalue = resultSet.getDouble("VALUE");
 
-					dbamount = dbamount - amount;
-					dbvalue = dbvalue - (amount * price);
+					dbamount = dbamount + amount;
+					dbvalue = dbvalue + (amount * price);
 					dbprice = dbvalue/dbamount;
 					statement.execute("UPDATE PORTFOLIO SET AMOUNT = " + dbamount + "AND AVGPRICE = "+dbprice
 							+"AND VALUE = "+dbvalue+"+ WHERE SYMBOL = '"+ symbol +"' AND ACCOUNTID=" + accountID);
