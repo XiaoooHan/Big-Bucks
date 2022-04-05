@@ -25,7 +25,7 @@
 
             %>
 
-            <h1>Trading History
+            <h1>My Portfolio
             </h1>
 
             <table border="0">
