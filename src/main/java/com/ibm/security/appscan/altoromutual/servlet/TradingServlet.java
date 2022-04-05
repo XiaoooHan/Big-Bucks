@@ -50,6 +50,7 @@ public class TradingServlet extends HttpServlet{
             }else if(action.equals("sell")){
                 try {
                     DBUtil.addTrading(accountID, action, symbol, price, amount);
+                    DBUtil.setPortfolio(accountID,symbol,price,amount,action);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

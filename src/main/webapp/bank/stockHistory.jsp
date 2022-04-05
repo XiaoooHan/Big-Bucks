@@ -15,9 +15,7 @@
     <td valign="top" colspan="3" class="bb">
         <%@page import="com.ibm.security.appscan.altoromutual.model.Account"%>
         <%@page import="java.text.SimpleDateFormat"%>
-        <%@page import="java.text.NumberFormat"%>
         <%@page import="java.text.DecimalFormat"%>
-        <%@page import="java.util.ArrayList"%>
         <%@ page import="com.ibm.security.appscan.altoromutual.model.Trading" %>
         <%@ page import="com.ibm.security.appscan.altoromutual.util.DBUtil" %>
         <div class="fl" style="width: 99%;">

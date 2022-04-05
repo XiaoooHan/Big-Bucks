@@ -200,37 +200,77 @@ public class DBUtil {
 		//CREATE TABLE PORTFOLIO (STOCK_ID, ACCOUNTID, SYMBOL, AMOUNT, AVGPRICE, VALUE);
 		if(action.equals("buy")) {
 			if (resultSet.next()) {
-				if (resultSet.getInt(1) > 0){
-					//update stock in portfolio
-					long dbamount = resultSet.getLong("AMOUNT");
-					double dbprice = resultSet.getDouble("AVGPRICE");
-					double dbvalue = resultSet.getDouble("VALUE");
+				//update stock in portfolio
+				long dbamount = resultSet.getLong("AMOUNT");
+				double dbprice = resultSet.getDouble("AVGPRICE");
+				double dbvalue = resultSet.getDouble("VALUE");
 
-					dbamount = dbamount + amount;
-					dbvalue = dbvalue + (amount * price);
-					dbprice = dbvalue/dbamount;
-					statement.execute("UPDATE PORTFOLIO SET AMOUNT = " + dbamount + "AND AVGPRICE = "+dbprice
-							+"AND VALUE = "+dbvalue+"+ WHERE SYMBOL = '"+ symbol +"' AND ACCOUNTID=" + accountID);
-				}else{
-					//add stock in portfolio
-					double value = (double)amount * price;
-					statement.execute("INSERT INTO PORTFOLIO(ACCOUNTID,SYMBOL,AMOUNT,AVGPRICE,VALUE) VALUES (" + accountID + ",'" + symbol + "'," + amount + "," + price + "," + value + ")");
-				}
-
+				dbamount = dbamount + amount;
+				dbvalue = dbvalue + (amount * price);
+				dbprice = dbvalue/dbamount;
+				statement.execute("UPDATE PORTFOLIO SET AMOUNT = " + dbamount + ", AVGPRICE = "+dbprice+", VALUE = "+dbvalue+" WHERE SYMBOL = '"+ symbol +"' AND ACCOUNTID=" + accountID);
+			}else{
+				//add stock in portfolio
+				double value = (double)amount * price;
+				statement.execute("INSERT INTO PORTFOLIO(ACCOUNTID,SYMBOL,AMOUNT,AVGPRICE,VALUE) VALUES (" + accountID + ",'" + symbol + "'," + amount + "," + price + "," + value + ")");
 			}
+
 		}else if(action.equals("sell")){
 			if (resultSet.next()) {
-				if (resultSet.getInt(1) > 0){
 					//update stock in portfolio
-				}else{
+				long dbamount = resultSet.getLong("AMOUNT");
+				double dbprice = resultSet.getDouble("AVGPRICE");
+				double dbvalue = resultSet.getDouble("VALUE");
+
+				dbamount = dbamount - amount;
+				dbvalue = dbvalue - (amount * price);
+				dbprice = dbvalue/dbamount;
+				statement.execute("UPDATE PORTFOLIO SET AMOUNT = " + dbamount + ", AVGPRICE = "+dbprice+", VALUE = "+dbvalue+" WHERE SYMBOL = '"+ symbol +"' AND ACCOUNTID=" + accountID);
+			}else{
 					return null;
 				}
+		}
+		return null;
+	}
+	public static Portfolio[] getPortfolio(Account[] accounts) throws SQLException {
 
-			}
+		if (accounts == null || accounts.length == 0)
+			return null;
+
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+
+		StringBuffer acctIds = new StringBuffer();
+		acctIds.append("ACCOUNTID = " + accounts[0].getAccountId());
+		for (int i=1; i<accounts.length; i++){
+			acctIds.append(" OR ACCOUNTID = "+accounts[i].getAccountId());
 		}
 
+		String query = "SELECT * FROM PORTFOLIO WHERE (" + acctIds.toString() + ")" ;
+		ResultSet resultSet = null;
 
-		return null;
+		try {
+			resultSet = statement.executeQuery(query);
+		} catch (SQLException e){
+			int errorCode = e.getErrorCode();
+			if (errorCode == 30000)
+				throw new SQLException("Date-time query must be in the format of yyyy-mm-dd HH:mm:ss", e);
+
+			throw e;
+		}
+		// CREATE TABLE PORTFOLIO (STOCK_ID, ACCOUNTID, SYMBOL, AMOUNT, AVGPRICE, VALUE);
+		ArrayList<Portfolio> portfolio = new ArrayList<Portfolio>();
+		while (resultSet.next()){
+			int stock_id = resultSet.getInt("STOCK_ID");
+			long actId = resultSet.getLong("ACCOUNTID");
+			String symbol = resultSet.getString("SYMBOL");
+			int amount = resultSet.getInt("AMOUNT");
+			double price = resultSet.getDouble("AVGPRICE");
+			double value = resultSet.getDouble("VALUE");
+
+			portfolio.add(new Portfolio(stock_id, actId,symbol,amount,price));
+		}
+		return portfolio.toArray(new Portfolio[portfolio.size()]);
 	}
 
 	public static Trading[] getTradings(Account[] accounts) throws SQLException {
