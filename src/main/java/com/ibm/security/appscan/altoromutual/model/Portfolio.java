@@ -47,15 +47,5 @@ public class Portfolio {
     }
 
 
-    @Override
-    public String toString() {
-        return "Portofolio{" +
-                "stockId=" + stockId +
-                ", accountId=" + accountId +
-                ", stockSymbol=" + symbol +
-                ", amount=" + amount +
-                ", price=" + price +
-                ", value=" + value +
-                '}';
-    }
+
 }

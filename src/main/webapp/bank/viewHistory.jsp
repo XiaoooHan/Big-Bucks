@@ -34,7 +34,6 @@
                 <TR valign="top">
                     <script type="text/javascript">
                         function jump(){
-                            //window.location.href='/bank/stockAnalysisServlet?action=list';
                             window.location.href='SPY.jsp';
                         }
                     </script>
