@@ -5,6 +5,7 @@
   Time: 10:25 PM
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 
@@ -22,7 +23,6 @@
             <%
                 com.ibm.security.appscan.altoromutual.model.User user = (com.ibm.security.appscan.altoromutual.model.User)request.getSession().getAttribute("user");
                 Account[] accounts = user.getAccounts();
-
             %>
 
             <h1>My Portfolio
@@ -36,7 +36,6 @@
                     <td>PRICE</td>
                     <td>VALUE</td>
                 </tr>
-                <td>
                         <%
                             Portfolio[] portfolios = DBUtil.getPortfolio(accounts);
                             for (Portfolio portfolio: portfolios){
@@ -47,8 +46,28 @@
                                 String value = new DecimalFormat(dollarFormatv).format(dblVal);
                                 String price = new DecimalFormat(dollarFormatp).format(dblPrice);
                         %>
-                    <tr><td width=84><%=portfolio.getSymbol()%></td><td width=84><%=portfolio.getAmount()%></td><td width=84><%=price%></td><td width=84><%=value%></td></tr>
+                    <tr><td width=84><%=portfolio.getSymbol()%></td><td width=84><%=portfolio.getAmount()%></td><td width=84><%=price%></td><td width=84><%=value%></td>
+                          <td>
+                              <form name="check" method="post" action="check">
+                                  <%session.setAttribute("symbol",portfolio.getSymbol());%>
+                                  <input type="submit" id="btnCheck" value="Check Historical Data">
+                              </form>
+                          </td>
+
+
+                    </tr>
                         <% } %>
+
+                            <TR valign="top">
+                                <script type="text/javascript">
+                                    function jump(){
+                                        window.location.href='calSR.jsp';
+                                    }
+                                </script>
+                                <td>
+                                    <input type="button" onclick="jump()" value="Calculate Sharp Ratio"width="99">
+                                </td>
+                            </tr>
             </table></DIV>
     </td>
 

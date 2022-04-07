@@ -176,7 +176,7 @@
 
   <servlet-mapping>
     <servlet-name>StockAnalysisServlet</servlet-name>
-    <url-pattern>/user/stockAnalysisServlet</url-pattern>
+    <url-pattern>/bank/check</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

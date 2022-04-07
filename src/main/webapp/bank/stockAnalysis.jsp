@@ -29,7 +29,6 @@
                     <TR valign="top">
                         <script type="text/javascript">
                             function jump1(){
-                                //window.location.href='/user/stockAnalysisServlet?action=list';
                                 window.location.href='stockHistory.jsp';
                             }
                         </script>
@@ -41,7 +40,7 @@
                     <TR valign="top">
                         <script type="text/javascript">
                             function jump2(){
-                                //window.location.href='/user/stockAnalysisServlet?action=list';
+                                //window.location.href='/bank/stockAnalysisServlet?action=list';
                                 window.location.href='checkPortfolio.jsp';
                             }
                         </script>
