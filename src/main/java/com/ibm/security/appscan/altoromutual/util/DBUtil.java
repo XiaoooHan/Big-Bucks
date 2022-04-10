@@ -18,6 +18,8 @@
 
 package com.ibm.security.appscan.altoromutual.util;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -28,14 +30,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.ibm.security.appscan.Log4AltoroJ;
+import com.ibm.security.appscan.altoromutual.api.YahooAPI;
 import com.ibm.security.appscan.altoromutual.model.*;
 import com.ibm.security.appscan.altoromutual.model.User.Role;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.histquotes.Interval;
 
 /**
  * Utility class for database operations
@@ -151,6 +159,7 @@ public class DBUtil {
 			statement.execute("DROP TABLE FEEDBACK");
 			statement.execute("DROP TABLE TRADING");
 			statement.execute("DROP TABLE PORTFOLIO");
+			statement.execute("DROP TABLE HISTORICALDATA");
 		} catch (SQLException e) {
 			// not a problem
 		}
@@ -161,6 +170,7 @@ public class DBUtil {
 		statement.execute("CREATE TABLE TRANSACTIONS (TRANSACTION_ID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 2311, INCREMENT BY 1), ACCOUNTID BIGINT NOT NULL, DATE TIMESTAMP NOT NULL, TYPE VARCHAR(100) NOT NULL, AMOUNT DOUBLE NOT NULL, PRIMARY KEY (TRANSACTION_ID))");
 		statement.execute("CREATE TABLE TRADING (TRADING_ID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ACCOUNTID BIGINT NOT NULL,SYMBOL VARCHAR(100) NOT NULL,TYPE VARCHAR(100) NOT NULL, DATE TIMESTAMP NOT NULL, AMOUNT BIGINT NOT NULL, PRICE DOUBLE NOT NULL, VALUE DOUBLE NOT NULL,PRIMARY KEY (TRADING_ID))");
 		statement.execute("CREATE TABLE PORTFOLIO (STOCK_ID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), ACCOUNTID BIGINT NOT NULL,SYMBOL VARCHAR(100) NOT NULL, AMOUNT BIGINT NOT NULL, AVGPRICE DOUBLE NOT NULL, VALUE DOUBLE NOT NULL,PRIMARY KEY (STOCK_ID))");
+		statement.execute("CREATE TABLE HISTORICALDATA (DATA_ID int not null generated always as identity, SYMBOL varchar(5), DATE TIMESTAMP NOT NULL,PRICE_OPEN DOUBLE NOT NULL, PRICE_HIGH DOUBLE NOT NULL, PRICE_LOW DOUBLE NOT NULL, PRICE_CLOSE DOUBLE NOT NULL, PRIMARY KEY(SYMBOL, DATE))");
 
 
 		statement.execute("INSERT INTO PEOPLE (USER_ID,PASSWORD,FIRST_NAME,LAST_NAME,ROLE) VALUES ('admin', 'admin', 'Admin', 'User','admin'), ('jsmith','demo1234', 'John', 'Smith','user'),('jdoe','demo1234', 'Jane', 'Doe','user'),('sspeed','demo1234', 'Sam', 'Speed','user'),('tuser','tuser','Test', 'User','user')");
@@ -303,6 +313,141 @@ public class DBUtil {
 			portfolio.add(new Portfolio(stock_id, actId,symbol,amount,price));
 		}
 		return portfolio.toArray(new Portfolio[portfolio.size()]);
+	}
+
+	public static String[] getStocksInDB() throws SQLException {
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+
+		ResultSet resultSet = statement.executeQuery("SELECT DISTINCT SYMBOL FROM HISTORICALDATA");
+		ArrayList<String> stocks = new ArrayList<String>();
+		while(resultSet.next()){
+			String stock = resultSet.getString("symbol");
+			stocks.add(stock);
+		}
+		return stocks.toArray(new String[stocks.size()]);
+	}
+
+	public static Timestamp getStockLastDate(String symbol) throws SQLException {
+		Timestamp date= null;
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+
+		ResultSet resultSet =
+				statement.executeQuery("SELECT MAX(DATE) FROM HISTORICALDATA WHERE SYMBOL = '" + symbol + "'");
+		if (resultSet.next()){
+			date = resultSet.getTimestamp(1);
+		}
+		return date;
+	}
+
+	private static Timestamp converDate(Calendar cal){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = format.format(cal.getTime());
+		java.sql.Timestamp timestamp = Timestamp.valueOf(time);
+		return timestamp;
+	}
+
+	public static String getHistoricalData(String stock, int year) throws SQLException, IOException {
+
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+
+		YahooAPI yahooStockAPI = new YahooAPI();
+		List<HistoricalQuote> history = null;
+		try {
+			history = yahooStockAPI.getHistory(stock, year);
+		} catch (NullPointerException e) {
+			return stock + " stock history is null";
+		}
+		try {
+			for (HistoricalQuote quote : history) {
+
+				String symbol = quote.getSymbol();
+				BigDecimal close = quote.getClose();
+				BigDecimal open = quote.getOpen();
+				BigDecimal high = quote.getHigh();
+				BigDecimal low = quote.getLow();
+				Timestamp timestamp = converDate(quote.getDate());
+
+
+				String sql = "Insert into HISTORICALDATA (symbol, date, price_open, price_high, price_low, price_close) values ('" + symbol + "','" + timestamp + "'," + open + "," + high + "," + low + "," + close + ")";
+				statement.executeUpdate(sql);
+
+
+			}
+		} catch (SQLException e) {
+			return stock + " duplicate primary key";
+		}
+		return null;
+
+	}
+
+
+	public static String updateAllData() throws SQLException, IOException{
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+		YahooAPI yahooStockAPI = new YahooAPI();
+		String[] symbolsInDB = getStocksInDB();
+
+		for (int i=0;i<symbolsInDB.length;i++){
+			String st = symbolsInDB[i];
+			Timestamp date = getStockLastDate(st);
+			Calendar from = Calendar.getInstance();
+			from.setTimeInMillis(date.getTime());
+
+			Calendar to = Calendar.getInstance();
+			List<HistoricalQuote> history = null;
+			try {
+				history = yahooStockAPI.getHistory(st, from, to);
+			} catch (NullPointerException e) {
+				return st + " stock history is null";
+			}
+
+			for (HistoricalQuote quote : history) {
+
+				String symbol = quote.getSymbol();
+				BigDecimal close = quote.getClose();
+				BigDecimal open = quote.getOpen();
+				BigDecimal high = quote.getHigh();
+				BigDecimal low = quote.getLow();
+				Timestamp timestamp = converDate(quote.getDate());
+
+				try {
+					String sql = "Insert into HISTORICALDATA (symbol, date, price_open, price_high, price_low, price_close) values ('" + symbol + "','" + timestamp + "'," + open + "," + high + "," + low + "," + close + ")";
+					statement.executeUpdate(sql);
+					System.out.println("Update "+symbol+" "+timestamp+" Data");
+				} catch (SQLException e) {
+
+				}
+			}
+
+
+		}
+
+		return null;
+	}
+
+	public static ArrayList<HistoricalData> getHistoricalDataByRange(String symbol, int year) throws SQLException, IOException {
+		ArrayList<HistoricalData> result = new ArrayList<HistoricalData>();
+
+		YahooAPI yahooAPI = new YahooAPI();
+
+		List<HistoricalQuote> history = yahooAPI.getHistory(symbol,1);
+
+		for (HistoricalQuote quote : history) {
+
+			String sbl = quote.getSymbol();
+			BigDecimal close = quote.getClose();
+			BigDecimal open = quote.getOpen();
+			BigDecimal high = quote.getHigh();
+			BigDecimal low = quote.getLow();
+			Timestamp timestamp = converDate(quote.getDate());
+
+			result.add(new HistoricalData(sbl,timestamp,open.doubleValue(),high.doubleValue(),low.doubleValue(),close.doubleValue()));
+		}
+
+		return result;
 	}
 
 	public static Trading[] adminGetTradings() throws SQLException {

@@ -49,6 +49,18 @@
                         </td>
                     </tr>
 
+                    <TR valign="top">
+                        <script type="text/javascript">
+                            function jump3(){
+                                //window.location.href='/bank/stockAnalysisServlet?action=list';
+                                window.location.href='../chart.jsp';
+                            }
+                        </script>
+                        <td>
+                            <input type="button" onclick="jump3()" value="Analysis By Plot"width="99">
+                        </td>
+                    </tr>
+
                 </table>
 
         </div>

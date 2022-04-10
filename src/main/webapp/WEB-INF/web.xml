@@ -174,6 +174,44 @@
   </servlet>
 
 
+  <servlet>
+    <servlet-name>PlotServlet</servlet-name>
+    <servlet-class>com.ibm.security.appscan.altoromutual.servlet.PlotServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>GetPlotServlet</servlet-name>
+    <servlet-class>com.ibm.security.appscan.altoromutual.servlet.GetPlotServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DisplayChart</servlet-name>
+    <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+  </servlet>
+
+
+  <servlet>
+    <description>
+    </description>
+    <display-name>
+      SurveyServlet</display-name>
+    <servlet-name>ChartServlet</servlet-name>
+    <servlet-class>
+      com.ibm.security.appscan.altoromutual.servlet.ChartServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DisplayChart</servlet-name>
+    <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ChartServlet</servlet-name>
+    <url-pattern>/chart</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>DisplayChart</servlet-name>
+    <url-pattern>/DisplayChart</url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>StockAnalysisServlet</servlet-name>
     <url-pattern>/bank/check</url-pattern>

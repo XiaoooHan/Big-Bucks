@@ -32,6 +32,13 @@ public class YahooAPI {
         return history;
     }
 
+    public List<HistoricalQuote> getHistory(String stockName, Calendar from, Calendar to) throws IOException {
+        Stock stock = YahooFinance.get(stockName);
+
+        List<HistoricalQuote> history = stock.getHistory(from,to, Interval.DAILY);
+        return history;
+    }
+
     public List<HistoricalQuote> getHistory(String stockName, Calendar from) throws IOException {
         Stock stock = YahooFinance.get(stockName);
 
@@ -44,6 +51,52 @@ public class YahooAPI {
         String time = format.format(cal.getTime());
         Timestamp timestamp = Timestamp.valueOf(time);
         return timestamp;
+    }
+
+    public double adminCalSP() throws SQLException, IOException {
+        Portfolio[] portfolios = DBUtil.adminGetPortfolio();
+        Trading[] tradings = DBUtil.adminGetTradings();
+
+        double nowValue = 0.0;
+        double lastValue = 0.0;
+        for (Portfolio portfolio: portfolios){
+            nowValue += YahooFinance.get(portfolio.getSymbol()).getQuote().getPrice().doubleValue() * portfolio.getAmount();
+            lastValue += portfolio.getValue();
+        }
+        double ror = (nowValue - lastValue)/lastValue - 0.02067;
+
+        Date firstTrade = tradings[0].getDate();
+
+        Calendar from=Calendar.getInstance();
+        from.setTime(firstTrade);
+
+        String symbol = portfolios[1].getSymbol();
+        List<HistoricalQuote> history = getHistory(symbol,from);
+
+        List<Double> dailyRor = new ArrayList<>();
+        for (HistoricalQuote quote : history) {
+            double open = quote.getOpen().doubleValue();
+            double adj = quote.getAdjClose().doubleValue();
+            dailyRor.add((adj-open)/open);
+        }
+
+        double avgRor = 0.0;
+        double sigma = 0.0;
+        for (int i = 0; i < dailyRor.size(); i++) {
+            avgRor += dailyRor.get(i);
+        }
+        avgRor = avgRor/ dailyRor.size();
+
+        for (int i = 0; i < dailyRor.size(); i++) {
+            sigma += Math.pow((dailyRor.get(i)-avgRor),2);
+        }
+
+        sigma =Math.sqrt(sigma/dailyRor.size());
+        double sr = 0.0;
+        sr = ror/sigma;
+
+        return sr;
+
     }
 
     public double calSP(Account[] accounts) throws SQLException, IOException {
@@ -86,7 +139,7 @@ public class YahooAPI {
 
         sigma =Math.sqrt(sigma/dailyRor.size());
         double sr = 0.0;
-        sr = ror/sigma/8;
+        sr = ror/sigma;
 
         return sr;
 

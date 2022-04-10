@@ -28,6 +28,7 @@
             <%
                 com.ibm.security.appscan.altoromutual.model.User user = (com.ibm.security.appscan.altoromutual.model.User)request.getSession().getAttribute("user");
                 Account[] accounts = user.getAccounts();
+
             %>
 
             <h1>My Portfolio</h1>
