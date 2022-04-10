@@ -272,6 +272,37 @@ public class DBUtil {
 		}
 		return portfolio.toArray(new Portfolio[portfolio.size()]);
 	}
+	public static Portfolio[] adminGetPortfolio() throws SQLException {
+
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+
+		String query = "SELECT * FROM PORTFOLIO " ;
+		ResultSet resultSet = null;
+
+		try {
+			resultSet = statement.executeQuery(query);
+		} catch (SQLException e){
+			int errorCode = e.getErrorCode();
+			if (errorCode == 30000)
+				throw new SQLException("Date-time query must be in the format of yyyy-mm-dd HH:mm:ss", e);
+
+			throw e;
+		}
+		// CREATE TABLE PORTFOLIO (STOCK_ID, ACCOUNTID, SYMBOL, AMOUNT, AVGPRICE, VALUE);
+		ArrayList<Portfolio> portfolio = new ArrayList<Portfolio>();
+		while (resultSet.next()){
+			int stock_id = resultSet.getInt("STOCK_ID");
+			long actId = resultSet.getLong("ACCOUNTID");
+			String symbol = resultSet.getString("SYMBOL");
+			int amount = resultSet.getInt("AMOUNT");
+			double price = resultSet.getDouble("AVGPRICE");
+			double value = resultSet.getDouble("VALUE");
+
+			portfolio.add(new Portfolio(stock_id, actId,symbol,amount,price));
+		}
+		return portfolio.toArray(new Portfolio[portfolio.size()]);
+	}
 
 	public static Trading[] getTradings(Account[] accounts) throws SQLException {
 
