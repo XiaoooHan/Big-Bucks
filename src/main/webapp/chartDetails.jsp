@@ -44,20 +44,21 @@
             <form method="post" name="chart" action="chart" id="chart">
                 <input type="submit" value="Back to Chart">
             </form>
+
             <img src="DisplayChart?filename=<%=priceFileName %>" alt="API exceeds limit"
-                 width="400" height="250" />
+                 width="600" height="400" />
             <img src="DisplayChart?filename=<%=returnFileName %>" alt="API exceeds limit"
-                 width="400" height="250" />
+                 width="600" height="400" />
             <img src="DisplayChart?filename=<%=autoCorrFileName %>" alt="API exceeds limit"
-                 width="400" height="250" />
+                 width="600" height="400" />
             <img src="DisplayChart?filename=<%=histFileName %>" alt="API exceeds limit"
-                 width="400" height="250" />
+                 width="600" height="400" />
             <img src="DisplayChart?filename=<%=cumRetFileName %>" alt="API exceeds limit"
-                 width="400" height="250" />
+                 width="600" height="400" />
             <img src="DisplayChart?filename=<%=dailyPctFileName %>" alt="API exceeds limit"
-                 width="400" height="250" />
+                 width="600" height="400" />
             <img src="DisplayChart?filename=<%=CAPMFileName %>" alt="API exceeds limit"
-                 width="400" height="250" />
+                 width="600" height="400" />
         </div>
     </td>
 </div>

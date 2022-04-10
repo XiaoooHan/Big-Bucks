@@ -57,7 +57,7 @@
                             }
                         </script>
                         <td>
-                            <input type="button" onclick="jump3()" value="Analysis By Plot"width="99">
+                            <input type="button" onclick="jump3()" value="Plot Analysis"width="99">
                         </td>
                     </tr>
 
