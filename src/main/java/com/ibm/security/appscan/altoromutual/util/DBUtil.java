@@ -26,6 +26,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.naming.Context;
@@ -302,6 +303,57 @@ public class DBUtil {
 			portfolio.add(new Portfolio(stock_id, actId,symbol,amount,price));
 		}
 		return portfolio.toArray(new Portfolio[portfolio.size()]);
+	}
+
+	public static Trading[] adminGetTradings() throws SQLException {
+
+
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+
+		Date today = new Date();
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(today);
+		c.add(Calendar.DATE, 1);
+		Date tomorrow = c.getTime();
+
+		String startDate = format.format(today);
+		String endDate = format.format(tomorrow);
+
+
+		String query = "SELECT * FROM TRADING where DATE between timestamp('"
+				+ startDate + "','00:00:00') and timestamp('" +
+				endDate + "', '00:00:00') order by date";
+
+		ResultSet resultSet = null;
+
+		try {
+			resultSet = statement.executeQuery(query);
+		} catch (SQLException e){
+			int errorCode = e.getErrorCode();
+			if (errorCode == 30000)
+				throw new SQLException("Date-time query must be in the format of yyyy-mm-dd HH:mm:ss", e);
+
+			throw e;
+		}
+		// TRADING(TRADING_ID,ACCOUNTID,SYMBOL,TYPE,DATE,AMOUNT,PRICE,VALUE)
+		ArrayList<Trading> tradings = new ArrayList<Trading>();
+		while (resultSet.next()){
+			int tradingId = resultSet.getInt("TRADING_ID");
+			long actId = resultSet.getLong("ACCOUNTID");
+			String symbol = resultSet.getString("SYMBOL");
+			String type = resultSet.getString("TYPE");
+			Timestamp date = resultSet.getTimestamp("DATE");
+			int amount = resultSet.getInt("AMOUNT");
+			double price = resultSet.getDouble("PRICE");
+			double value = resultSet.getDouble("VALUE");
+
+			tradings.add(new Trading(tradingId, actId, date,symbol, type, amount,price));
+		}
+
+		return tradings.toArray(new Trading[tradings.size()]);
 	}
 
 	public static Trading[] getTradings(Account[] accounts) throws SQLException {
