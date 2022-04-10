@@ -21,19 +21,16 @@
 
             <%
                 com.ibm.security.appscan.altoromutual.model.User user = (com.ibm.security.appscan.altoromutual.model.User)request.getSession().getAttribute("user");
-                double sp1 = -1.334;
                 Account[] accounts = user.getAccounts();
             %>
 
-            <h1>My Portfolio</h1>
+            <h1>Total Portfolio</h1>
 
             <table border="0">
                 <TR valign="top">
                     <td>Sharp Ratio: </td>
                     <%
-                        YahooAPI yahooAPI = new YahooAPI();
-                        double sp = yahooAPI.adminCalSP();
-
+                        double sp1 = -1.334;
                     %>
                     <td width=84><%=sp1%></td>
 
