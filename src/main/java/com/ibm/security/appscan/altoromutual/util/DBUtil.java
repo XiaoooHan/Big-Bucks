@@ -517,7 +517,7 @@ public class DBUtil {
 		}
 
 
-		String query = "SELECT * FROM TRADING WHERE (" + acctIds.toString() + ") ORDER BY DATE DESC" ;
+		String query = "SELECT * FROM TRADING WHERE (" + acctIds.toString() + ") ORDER BY DATE ASC" ;
 		ResultSet resultSet = null;
 
 		try {

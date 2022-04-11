@@ -30,9 +30,10 @@
                 <TR valign="top">
                     <td>Sharp Ratio: </td>
                     <%
-                        double sp1 = -1.334;
+                        YahooAPI yahooAPI = new YahooAPI();
+                        double sp = yahooAPI.adminCalSP()/4;
                     %>
-                    <td width=84><%=sp1%></td>
+                    <td width=84><%=sp%></td>
 
                 </tr>
 

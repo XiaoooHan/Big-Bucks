@@ -69,6 +69,7 @@ public class YahooAPI {
 
         Calendar from=Calendar.getInstance();
         from.setTime(firstTrade);
+        from.add(Calendar.DATE,-3);
 
         String symbol = portfolios[1].getSymbol();
         List<HistoricalQuote> history = getHistory(symbol,from);
@@ -103,6 +104,10 @@ public class YahooAPI {
         Portfolio[] portfolios = DBUtil.getPortfolio(accounts);
         Trading[] tradings = DBUtil.getTradings(accounts);
 
+        for (Trading trading: tradings){
+            System.out.println(trading.toString());
+        }
+
         double nowValue = 0.0;
         double lastValue = 0.0;
         for (Portfolio portfolio: portfolios){
@@ -116,8 +121,13 @@ public class YahooAPI {
         Calendar from=Calendar.getInstance();
         from.setTime(firstTrade);
 
+        from.add(Calendar.DATE,-3);
+
+
+
         String symbol = portfolios[1].getSymbol();
-        List<HistoricalQuote> history = getHistory(symbol,from);
+
+        List<HistoricalQuote> history = YahooFinance.get(symbol).getHistory(from,Interval.DAILY);
 
         List<Double> dailyRor = new ArrayList<>();
         for (HistoricalQuote quote : history) {
