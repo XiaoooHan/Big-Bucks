@@ -1,3 +1,19 @@
+# Implement UX/UI
+First one is the Figure-ground principle. THE FIGURE-GROUND PRINCIPLE STATES THAT PEOPLE INSTINCTIVELY Perceive Objects as either being in the foreground or the background. THEY EITHER STAND OUT PROMINENTLY IN THE FRONT (THE FIGURE) OR RECEDE INTO THE BACK (THE GROUND).
+
+When we were designing our company logo, we tend to use the color pattern correlated to the origianl page which are green and white.  As the background is gradiently changed from white to green, the logo we designed corresponded to that as well. In that way, it is not only shows the relation but also jumped out to grab attetnion.
+
+The second principle is Focal Point, it indicates that whatever points out visually will capture and hold the viewer's attention first. Therefore, we implemented that into some where we demand user attention. Our feature of sign in or off definitely serve as attention graber. Since our backgroun is green, we intended to use red to contrast.
+
+Last but not least, our final principle is Common Ground. It implies that When objects are located within the SAME CLOSE region, we perceive them as being GROUPED TOGETHER. The menu feature of the left of our website is an implementation of this principle. As we listed out all the potential usable link, we enable users to have access immediately to several functions at once. This way, we have increased the efficiency of this website.
+
+
+
+
+
+
+
+
 # Description
 WARNING: This application contains security vulnerabilities. Run it only in a backed-up and sheltered environment (such as a VM with a recent snapshot and host-only networking) and at your own risk, escpecially if you enable some of the advanced options described below!
 
